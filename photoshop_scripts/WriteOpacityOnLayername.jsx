@@ -1,10 +1,6 @@
 // script: Rio Fujimiya (r.2238@outlook.com, https://i2for.me)
 // 2023.09.11
 
-function debug_alert(msg) {
-    //alert(msg);
-}
-
 function activate(layer) {
     try {
         var idslct = charIDToTypeID("slct");
@@ -24,8 +20,6 @@ function activate(layer) {
     } catch (e) { debug_alert("layer activation fail") }
 }
 
-debug_alert("Hello");
-
 function processLayers(o) {
     var i;
     var layer;
@@ -34,18 +28,18 @@ function processLayers(o) {
 
         if (layer instanceof LayerSet) {
             processLayers(layer);
-
-            var opacityPercentage = Math.floor(layer.opacity + 0.5);
-            var newLayerName = layer.name;
-            var opacityPercentageKey = "%_";
-            if (layer.name.indexOf(opacityPercentageKey) !== -1) {
-                var splitLayerName = newLayerName.split(opacityPercentageKey);
-                splitLayerName.shift();
-                newLayerName = splitLayerName.join(opacityPercentageKey);
-            }
-            if (opacityPercentage != 100) newLayerName = opacityPercentage + opacityPercentageKey + newLayerName;
-            layer.name = newLayerName;
         }
+
+        var opacityPercentage = Math.floor(layer.opacity + 0.5);
+        var newLayerName = layer.name;
+        var opacityPercentageKey = "%_";
+        if (layer.name.indexOf(opacityPercentageKey) !== -1) {
+            var splitLayerName = newLayerName.split(opacityPercentageKey);
+            splitLayerName.shift();
+            newLayerName = splitLayerName.join(opacityPercentageKey);
+        }
+        if (opacityPercentage != 100) newLayerName = opacityPercentage + opacityPercentageKey + newLayerName;
+        layer.name = newLayerName;
     }
 }
 
