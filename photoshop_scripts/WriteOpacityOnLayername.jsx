@@ -25,6 +25,8 @@ function processLayers(o) {
     var layer;
     for (i = 0; i < o.layers.length; i++) {
         layer = o.layers[i];
+        var layerVisibility = layer.visible;
+        layer.visible = true;
 
         if (layer instanceof LayerSet) {
             processLayers(layer);
@@ -40,6 +42,7 @@ function processLayers(o) {
             if (opacityPercentage != 100) newLayerName = opacityPercentage + opacityPercentageKey + newLayerName;
             layer.name = newLayerName;
         }
+        layer.visible = layerVisibility;
 
     }
 }
