@@ -28,22 +28,23 @@ function processLayers(o) {
 
         if (layer instanceof LayerSet) {
             processLayers(layer);
+        } else {
+            var opacityPercentage = Math.floor(layer.opacity * layer.fillOpacity / 100 + 0.5);
+            var newLayerName = layer.name;
+            var opacityPercentageKey = "%_";
+            if (layer.name.indexOf(opacityPercentageKey) !== -1) {
+                var splitLayerName = newLayerName.split(opacityPercentageKey);
+                splitLayerName.shift();
+                newLayerName = splitLayerName.join(opacityPercentageKey);
+            }
+            if (opacityPercentage != 100) newLayerName = opacityPercentage + opacityPercentageKey + newLayerName;
+            layer.name = newLayerName;
         }
 
-        var opacityPercentage = Math.floor(layer.opacity + 0.5);
-        var newLayerName = layer.name;
-        var opacityPercentageKey = "%_";
-        if (layer.name.indexOf(opacityPercentageKey) !== -1) {
-            var splitLayerName = newLayerName.split(opacityPercentageKey);
-            splitLayerName.shift();
-            newLayerName = splitLayerName.join(opacityPercentageKey);
-        }
-        if (opacityPercentage != 100) newLayerName = opacityPercentage + opacityPercentageKey + newLayerName;
-        layer.name = newLayerName;
     }
 }
 
-if (Window.confirm("This script will get opacity of layers and prepend them to layer names. \nPlease backup psd before running this script.\n\nPush YES to start.\n\nRio Fujimiya (r.2238@outlook.com, https://i2for.me)\n2023.09.11")) {
+if (Window.confirm("This script will retrieve the opacity (layer.opacity * layer.fillOpacity) of layers and prefix it to their layer names. \nPlease backup psd before running this script.\n\nPush YES to start.\n\nRio Fujimiya (r.2238@outlook.com, https://i2for.me)\n2023.09.11")) {
 
     activate(activeDocument.layers[0]);
     activeDocument.layerSets.add();
