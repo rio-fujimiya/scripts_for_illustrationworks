@@ -35,21 +35,16 @@ function processLayers(o) {
         if (layer instanceof LayerSet) {
             processLayers(layer);
 
-        } else {
-            // レイヤーの不透明度を取得
-            var opacityPercentage = Math.floor(layer.opacity);
+            var opacityPercentage = Math.floor(layer.opacity + 0.5);
             var newLayerName = layer.name;
-            var percentage_key = "%_";
-            if (layer.name.indexOf("_") !== -1) {
-                var nameParts = newLayerName.split(percentage_key);
-                nameParts.shift();
-                newLayerName = opacityPercentage + percentage_key + nameParts.join(percentage_key);
-            } else {
-                newLayerName = opacityPercentage + percentage_key + newLayerName;
+            var opacityPercentageKey = "%_";
+            if (layer.name.indexOf(opacityPercentageKey) !== -1) {
+                var splitLayerName = newLayerName.split(opacityPercentageKey);
+                splitLayerName.shift();
+                newLayerName = splitLayerName.join(opacityPercentageKey);
             }
-
-            layer.name = newLayerName
-
+            if (opacityPercentage != 100) newLayerName = opacityPercentage + opacityPercentageKey + newLayerName;
+            layer.name = newLayerName;
         }
     }
 }
